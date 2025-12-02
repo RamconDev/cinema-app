@@ -18,12 +18,12 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    @app.route('/')
-    def index():
-        return "Hola mundo"
+    # @app.route('/')
+    # def index():
+    #     return "Hola mundo"
 
     # Register blueprints
-    # from app.register_blueprints import my_bp
-    # app.register_blueprint(my_bp)
+    from app.register_blueprints import register_blueprints
+    register_blueprints(app)
 
     return app
