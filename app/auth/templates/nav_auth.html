@@ -1,0 +1,21 @@
+<section>    
+    <h4>Auth Menu</h4>
+    <div style="display:flex;">
+        <ul>
+            <li>
+                <a href="{{ url_for('auth.view_users') }}">View Users</a>
+            </li>
+            <li>
+                <a href="{{ url_for('auth.register_user') }}">Register New Users</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="{{ url_for('auth.view_roles') }}">View Roles</a>
+            </li>
+            <li>
+                <a href="{{ url_for('auth.register_role') }}">Create New Role</a>
+            </li>
+        </ul>
+    </div>
+</section>

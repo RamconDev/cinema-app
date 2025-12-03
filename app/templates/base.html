@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema</title>
+</head>
+<body>
+    <div class="main" style="display: grid;grid-template-rows:auto 1fr auto; min-height:100vh">
+        {% include 'nav.html' %}
+        
+        <div class="wrap-content">
+            {% include 'messages.html' %}
+            {% block content %}
+            {% endblock content %}
+        </div>
+    
+        {% include 'footer.html' %}
+    </div>
+</body>
+</html>
