@@ -1,7 +1,9 @@
-<section>    
-    <h4>Auth Menu</h4>
-    <div style="display:flex;">
+<section class="submenu">    
+    <div class="content">
         <ul>
+            <li>
+                <h3>Users</h3>
+            </li>
             <li>
                 <a href="{{ url_for('auth.view_users') }}">View Users</a>
             </li>
@@ -10,6 +12,9 @@
             </li>
         </ul>
         <ul>
+            <li>
+                <h3>Roles</h3>
+            </li>
             <li>
                 <a href="{{ url_for('auth.view_roles') }}">View Roles</a>
             </li>

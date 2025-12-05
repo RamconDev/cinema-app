@@ -1,0 +1,11 @@
+/*
+sass --watch app/static/css/sass/main.scss:app/static/css/style.min.css --style compressed
+*/
+@use "base/base" as base;
+
+@use "layouts/navbar" as navbar;
+@use "layouts/submenu" as submenu;
+@use "layouts/footer" as footer;
+@use "layouts/table-list" as table-list;
+@use "layouts/form" as form;
+@use "layouts/messages" as messages;

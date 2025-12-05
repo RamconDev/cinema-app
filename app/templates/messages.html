@@ -4,11 +4,11 @@
         {% if category == "message" or not category: %}
             {% set category = "alert-info" %}
         {% endif %}
-        <section class="alert">
+        <section class="alert-c">
           <div class="container">
             <div class="alert {{ category }} alert-dismissible fade show" role="alert">
                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
             </div>
           </div>
         </section>

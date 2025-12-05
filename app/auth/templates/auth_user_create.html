@@ -1,45 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% include "nav_auth.html" %}
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.name.label }}
-            {{ form.name(size=100) }}
-            {% for error in form.name.errors %}
-                <span style="color:red;display:block">{{ error }}</span>
-            {% endfor %}
+    <section>
+        {% include "auth_hero.html" %}
+        <div class="container container-submenu">
+            {% include "nav_auth.html" %}
+            <div class="submenu-content">
+                <h3>Create User</h3>
+                <form method="POST" class="form-style">
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {{ form.name.label }}
+                        {{ form.name }}
+                        {% for error in form.name.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.email.label }}
+                        {{ form.email }}
+                        {% for error in form.email.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.password.label }}
+                        {{ form.password }}
+                        {% for error in form.password.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {{ form.role.label }}
+                        {{ form.role }}
+                        {% for error in form.role.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+    
+                    <div>
+                        {{ form.submit }}
+                        {% for error in form.submit.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
         </div>
-        
-        <div>
-            {{ form.email.label }}
-            {{ form.email(size=40) }}
-            {% for error in form.email.errors %}
-                <span style="color:red;display:block">{{ error }}</span>
-            {% endfor %}
-        </div>
-        
-        <div>
-            {{ form.password.label }}
-            {{ form.password(size=40) }}
-            {% for error in form.password.errors %}
-                <span style="color:red;display:block">{{ error }}</span>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.role.label }}
-            {{ form.role }}
-            {% for error in form.role.errors %}
-                <span style="color:red;display:block">{{ error }}</span>
-            {% endfor %}
-        </div>
-
-        <div>
-            {{ form.submit }}
-            {% for error in form.submit.errors %}
-                <span style="color:red;display:block">{{ error }}</span>
-            {% endfor %}
-        </div>
-    </form>
+    </section>
 {% endblock content %}

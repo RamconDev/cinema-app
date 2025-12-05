@@ -1,3 +1,51 @@
-<nav>
-    
-</nav>
+<div class="wrap-navbar">
+    <nav id="admin-menu">
+        <div class="container">
+            <div class="cinema-logo-c">
+                <a href="{{ url_for('cinema.index') }}"><img src="{{ url_for('static', filename='img/icons/logo.svg') }}" alt="Cinema Logo">CINEMA</a>
+            </div>
+            <div class="menu-c">
+                <ul class="buttons-menu">
+                    <li><a href="#">Cinema</a></li>
+                    <li><a href="{{ url_for('auth.view_users') }}">Users</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul class="buttons-menu">
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <nav id="general-menu">
+        <div class="container">
+            <ul>
+                <li>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/icons/home.png') }}">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/icons/clapper.png') }}">
+                        Peliculas
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/icons/ticket.png') }}">
+                        Funciones
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/icons/ticket.png') }}">
+                        Otro
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

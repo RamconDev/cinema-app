@@ -29,7 +29,7 @@ def register_role():
         db.session.add(new_role)
         db.session.commit()
         flash('Role Created', 'alert')
-        return redirect( url_for('cinema.index') )
+        return redirect( url_for('auth.view_roles') )
     return render_template('auth_role_create.html', form=form)
 
 # Read
@@ -47,7 +47,7 @@ def update_role(role_id):
     role = db.session.get(Role, role_id)
     if not role:
         flash("Role doesn't exist", "")
-        return redirect( url_for('view_roles') )
+        return redirect( url_for('auth.view_roles') )
     
     form = RegisterRoleForm(
         name = role.name,
@@ -74,7 +74,7 @@ def delete_role(role_id):
     role = db.session.get(Role, role_id)
     if not role:
         flash("Role doesn't exist", "")
-        return redirect( url_for('view_roles') )
+        return redirect( url_for('auth.view_roles') )
     
     db.session.delete(role)
     db.session.commit()

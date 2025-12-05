@@ -1,34 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% include "nav_auth.html" %}
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if roles %}
-            {% for role in roles %}
-            <tr>
-                <td>{{ role.id }}</td>
-                <td>{{ role.name }}</td>
-                <td>{{ role.description }}</td>
-                <td>
-                    <a href="{{ url_for('auth.update_role', role_id=role.id) }}">edit</a>
-                    <a href="{{ url_for('auth.delete_role', role_id=role.id) }}" style="pointer-events: none; color: gray; text-decoration: none;">delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-            {% else %}
-            <tr>
-                <td span="3">No roles registered.</td>
-            </tr>
-            {% endif %}
-        </tbody>
-    </table>
+    <section>
+        {% include "auth_hero.html" %}
+        <div class="container container-submenu">
+            {% include "nav_auth.html" %}
+            <div class="submenu-content">
+                <h3>Roles List</h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if roles %}
+                        {% for role in roles %}
+                        <tr>
+                            <td>{{ role.id }}</td>
+                            <td>{{ role.name }}</td>
+                            <td>{{ role.description }}</td>
+                            <td class="actions">
+                                <a href="{{ url_for('auth.update_role', role_id=role.id) }}">
+                                    <img src="{{ url_for('static', filename='img/icons/pencil.png') }}">
+                                </a>
+                                <!-- <a href="{{ url_for('auth.delete_role', role_id=role.id) }}" style="pointer-events: none; color: gray; text-decoration: none;"> -->
+                                <a href="{{ url_for('auth.delete_role', role_id=role.id) }}" style="color: gray; text-decoration: none;">
+                                    <img src="{{ url_for('static', filename='img/icons/trash.png') }}">
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td span="3">No roles registered.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 {% endblock content %}

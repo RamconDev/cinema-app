@@ -84,3 +84,6 @@ Thumbs.db
 
 # Flask-specific cache
 flask_session/
+
+app/data.sql
+app/schema.sql

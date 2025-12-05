@@ -1,0 +1,74 @@
+.wrap-navbar {
+    #admin-menu {
+        background-color: #1a1a1a;
+        border-bottom: solid 4px #EDD100;
+        .container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            align-items: center;
+            padding: 12px 0px;
+            .cinema-logo-c {
+                a {
+                    font-size: 40px;
+                    font-weight: 700;
+                    text-decoration: none;
+                    color: white;
+                    display:flex;
+                    gap: 8px;
+                    img {
+                        width: 38px;
+                    }
+                }
+            }
+            .menu-c {
+            }
+        }
+        ul.buttons-menu {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            a {
+                color: rgb(226, 226, 226);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 18px;
+                text-transform: uppercase;
+                transition: all .2s;
+                &:hover {
+                    color:white;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+    #general-menu {
+        background-color: #1a1a1a;
+        padding: 20px 0px;
+        .container {
+            display: flex;
+            justify-content: center;
+            ul {
+                display: flex;
+                gap: 50px;
+                list-style: none;
+                li {
+                    a {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        font-weight: 500;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: all .2s;
+                        &:hover {
+                            color:#058aff;
+                        }
+                        img {
+                            width: 28px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

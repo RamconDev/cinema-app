@@ -1,38 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% include "nav_auth.html" %}
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <!-- <th>Pass</th> -->
-                <th>Rol</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if users %}
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <!-- <td>{{ user.password_hash }}</td> -->
-                <td>{{ user.roles.name }} ({{ user.role_id }})</td>
-                <td>
-                    <a href="{{ url_for('auth.update_user', user_id=user.id) }}">edit</a>
-                    <a href="{{ url_for('auth.delete_user', user_id=user.id) }}">delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-            {% else %}
-            <tr>
-                <td span="3">No users registered.</td>
-            </tr>
-            {% endif %}
-        </tbody>
-    </table>
+    <section>
+        {% include "auth_hero.html" %}
+        <div class="container container-submenu">
+            {% include "nav_auth.html" %}
+            <div class="submenu-content">
+                <h3>Users List</h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <!-- <th>Pass</th> -->
+                            <th>Rol</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if users %}
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.email }}</td>
+                            <!-- <td>{{ user.password_hash }}</td> -->
+                            <td>{{ user.roles.name }}</td>
+                            <td class="actions">
+                                <a href="{{ url_for('auth.update_user', user_id=user.id) }}"><img src="{{ url_for('static', filename='img/icons/pencil.png') }}"></a>
+                                <a href="{{ url_for('auth.delete_user', user_id=user.id) }}"><img src="{{ url_for('static', filename='img/icons/trash.png') }}"></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td span="3">No users registered.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 {% endblock content %}
