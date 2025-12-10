@@ -7,6 +7,8 @@ class Genre(db.Model):
     name = db.Column(db.String(100), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=True)
 
+    movie_genres = db.relationship("MovieGenre", back_populates="genre")
+
     @classmethod
     def create_genre(cls, name, description=None):
         new_genre = cls(

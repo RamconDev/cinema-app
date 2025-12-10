@@ -18,7 +18,18 @@
                     padding: 10px 0px;
                     border-bottom: solid 1px rgba(255,255,255,.2);
                     a {
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
                         text-decoration: none;
+                        transition: margin .2s ease-out;
+                        &:hover {
+                            margin-left: 5px;
+                        }
+                        img {
+                            width: 20px;
+                            transition: width .2s;
+                        }
                     }
                 }
             }

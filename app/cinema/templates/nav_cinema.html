@@ -1,0 +1,44 @@
+<section class="submenu">    
+    <div class="content">
+        <ul>
+            <li>
+                <h3>Functions</h3>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <h3>Movies</h3>
+            </li>
+            <li>
+                <a href="{{ url_for('cinema.view_movies') }}">
+                    View Movies
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('cinema.create_movie') }}">
+                    Register New Movie
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <h3>Genre</h3>
+            </li>
+            <li>
+                <a href="{{ url_for('cinema.view_genres') }}">
+                    View Genres
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('cinema.create_genre') }}">
+                    Create New Genre
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <h3>Audithoriums</h3>
+            </li>
+        </ul>
+    </div>
+</section>

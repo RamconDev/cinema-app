@@ -2,11 +2,11 @@
 
 {% block content %}
     <section>
-        {% include "auth_hero.html" %}
+        {% include "cinema_hero.html" %}
         <div class="container container-submenu">
-            {% include "nav_auth.html" %}
+            {% include "nav_cinema.html" %}
             <div class="submenu-content">
-                <h3>{{ form.submit.label.text }} Role</h3>
+                <h3>{{ form.submit.label.text }} Genre</h3>
                 <form method="POST" class="form-style">
                     {{ form.hidden_tag() }}
                     <div>

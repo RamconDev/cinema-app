@@ -6,14 +6,18 @@
             </div>
             <div class="menu-c">
                 <ul class="buttons-menu">
-                    <li><a href="#">Cinema</a></li>
+                    <li><a href="{{ url_for('cinema.view_movies') }}">Cinema</a></li>
                     <li><a href="{{ url_for('auth.view_users') }}">Users</a></li>
                 </ul>
             </div>
-            <div>
+            <div class="log-c">
                 <ul class="buttons-menu">
-                    <li><a href="#">Login</a></li>
-                    <li><a href="#">Register</a></li>
+                    {% if current_user.is_authenticated: %}
+                        <li><a href="{{ url_for( 'auth.logout' ) }}">Logout</a></li>
+                    {% else: %}
+                        <li><a href="{{ url_for( 'auth.login' ) }}">Login</a></li>
+                        <li><a href="{{ url_for( 'auth.register' ) }}">Register</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -22,7 +26,7 @@
         <div class="container">
             <ul>
                 <li>
-                    <a href="#">
+                    <a href="{{ url_for('cinema.index') }}">
                         <img src="{{ url_for('static', filename='img/icons/home.png') }}">
                         Home
                     </a>
@@ -30,19 +34,19 @@
                 <li>
                     <a href="#">
                         <img src="{{ url_for('static', filename='img/icons/clapper.png') }}">
-                        Peliculas
+                        Movies
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <img src="{{ url_for('static', filename='img/icons/ticket.png') }}">
-                        Funciones
+                        Functions
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <img src="{{ url_for('static', filename='img/icons/ticket.png') }}">
-                        Otro
+                        Other
                     </a>
                 </li>
             </ul>

@@ -9,3 +9,5 @@ sass --watch app/static/css/sass/main.scss:app/static/css/style.min.css --style 
 @use "layouts/table-list" as table-list;
 @use "layouts/form" as form;
 @use "layouts/messages" as messages;
+
+@use "pages/login" as login;

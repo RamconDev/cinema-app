@@ -2,11 +2,11 @@
 
 {% block content %}
     <section>
-        {% include "auth_hero.html" %}
+        {% include "cinema_hero.html" %}
         <div class="container container-submenu">
-            {% include "nav_auth.html" %}
+            {% include "nav_cinema.html" %}
             <div class="submenu-content">
-                <h3>Roles List</h3>
+                <h3>Genres List</h3>
                 <table class="styled-table">
                     <thead>
                         <tr>
@@ -17,17 +17,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% if roles %}
-                        {% for role in roles %}
+                        {% if list %}
+                        {% for item in list %}
                         <tr>
-                            <td>{{ role.id }}</td>
-                            <td>{{ role.name }}</td>
-                            <td>{{ role.description }}</td>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.description }}</td>
                             <td class="actions">
-                                <a href="{{ url_for('auth.update_role', role_id=role.id) }}">
+                                <a href="{{ url_for('cinema.update_genre', genre_id=item.id) }}">
                                     {% include "icons_templates/pencil_icon.html" %}
                                 </a>
-                                <a href="{{ url_for('auth.delete_role', role_id=role.id) }}" style="color: gray; text-decoration: none;">
+                                <a href="{{ url_for('cinema.delete_genre', genre_id=item.id) }}" style="color: gray; text-decoration: none;">
                                     {% include "icons_templates/trash_icon.html" %}
                                 </a>
                             </td>
@@ -35,7 +35,7 @@
                         {% endfor %}
                         {% else %}
                         <tr>
-                            <td span="3">No roles registered.</td>
+                            <td span="3">No genres registered.</td>
                         </tr>
                         {% endif %}
                     </tbody>

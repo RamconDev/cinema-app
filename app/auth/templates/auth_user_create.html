@@ -6,7 +6,7 @@
         <div class="container container-submenu">
             {% include "nav_auth.html" %}
             <div class="submenu-content">
-                <h3>Create User</h3>
+                <h3>{{ form.submit.label.text }} User</h3>
                 <form method="POST" class="form-style">
                     {{ form.hidden_tag() }}
                     <div>

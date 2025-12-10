@@ -14,7 +14,9 @@
             font-size: 16px;
         }
         input[type='text'],
+        input[type='email'],
         input[type='password'],
+        input[type='number'],
         select,
         textarea {
             width: 100%;
@@ -44,6 +46,7 @@
             font-family: "Montserrat";
             font-weight: 600;
             transition: background-color .2s;
+            grid-column: 2;
             &:hover {
                 background-color: rgba(237, 209, 0, .85);
             }
@@ -55,6 +58,16 @@
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23EDD100'><path d='M2 4l5 6 5-6z'/></svg>");
             background-repeat: no-repeat;
             background-position: calc(100% - 12px);
+        }
+        ul#options {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            li {
+                display: flex;
+                gap: 4px;
+            }
         }
     }
     @media ( max-width: 767px ) {

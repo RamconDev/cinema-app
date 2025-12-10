@@ -1,4 +1,5 @@
 from app import db
+from app.models.cinema_movie_genre import MovieGenre
 
 class Movie(db.Model):
     __tablename__ = 'movies'
@@ -10,5 +11,4 @@ class Movie(db.Model):
     duration_minutes = db.Column(db.Integer, nullable=False)
     poster_url = db.Column(db.String(250), nullable=True)
 
-    def __repr__(self):
-        return f'<Movie {self.title} ({self.release_year})>'
+    movie_genres = db.relationship('MovieGenre', back_populates="movie", cascade="all, delete-orphan")

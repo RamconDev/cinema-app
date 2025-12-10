@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        {% include "cinema_hero.html" %}
+        <div class="container container-submenu">
+            {% include "nav_cinema.html" %}
+            <div class="submenu-content">
+                <h3>{{ form.submit.label.text }} Movie</h3>
+                <form method="POST" class="form-style">
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {{ form.title.label }}
+                        {{ form.title(size=40) }}
+                        {% for error in form.title.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.description.label }}
+                        {{ form.description(size=40) }}
+                        {% for error in form.description.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.release_year.label }}
+                        {{ form.release_year }}
+                        {% for error in form.release_year.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.duration_minutes.label }}
+                        {{ form.duration_minutes(size=40) }}
+                        {% for error in form.duration_minutes.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.poster_url.label }}
+                        {{ form.poster_url(size=40) }}
+                        {% for error in form.poster_url.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.options.label }}
+                        {{ form.options(size=40) }}
+                        {% for error in form.options.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+    
+                    <div>
+                        {{ form.submit }}
+                        {% for error in form.submit.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
