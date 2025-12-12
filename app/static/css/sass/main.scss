@@ -11,3 +11,4 @@ sass --watch app/static/css/sass/main.scss:app/static/css/style.min.css --style 
 @use "layouts/messages" as messages;
 
 @use "pages/login" as login;
+@use "pages/cinema_auditorium" as cinema_auditorium;

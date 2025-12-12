@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        {% include "cinema_hero.html" %}
+        <div class="container container-submenu">
+            {% include "nav_cinema.html" %}
+            <div class="submenu-content">
+                <h3>Auditorium List</h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Seats</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if list %}
+                        {% for item in list %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.total_seats }}</td>
+                            <td class="actions">
+                                <a href="{{ url_for('cinema.update_auditorium', auditorium_id=item.id) }}">
+                                    {% include "icons_templates/pencil_icon.html" %}
+                                </a>
+                                <a href="{{ url_for('cinema.delete_auditorium', auditorium_id=item.id) }}" style="color: gray; text-decoration: none;">
+                                    {% include "icons_templates/trash_icon.html" %}
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td span="3">No genres registered.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

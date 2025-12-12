@@ -1,2 +1,3 @@
 from .genre_create import RegisterGenreForm
 from .movie_create import RegisterMovieForm
+from .auditorium_create import RegisterAuditoriumForm

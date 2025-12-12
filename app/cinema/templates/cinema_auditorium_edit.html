@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        {% include "cinema_hero.html" %}
+        <div class="container container-submenu">
+            {% include "nav_cinema.html" %}
+            <div class="submenu-content">
+                <h3>{{ form.submit.label.text }} Auditorium</h3>
+                <form method="POST" class="form-style">
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {{ form.name.label }}
+                        {{ form.name(size=40) }}
+                        {% for error in form.name.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.rows.label }}
+                        {{ form.rows(size=40) }}
+                        {% for error in form.rows.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.seats_per_row.label }}
+                        {{ form.seats_per_row(size=40) }}
+                        {% for error in form.seats_per_row.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+    
+                    <div>
+                        {{ form.submit }}
+                        {% for error in form.submit.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </form>
+
+                
+<div class="auditorium-seats-section">
+    <h3>Estructura de Asientos ({{ auditorium.total_seats }} total)</h3>
+    <p class="text-muted">La estructura de asientos no se puede modificar una vez creada.</p>
+    <div class="auditorium-seats">
+        {% if seats %}
+            <table class="seat-map-admin styled-table scroll-on">
+                <thead>
+                    <tr>
+                        <th></th> 
+                        {% set sample_row = seats.values() | first %}
+                        {% for seat in sample_row %}
+                            <th>{{ seat.seat_number[1:] }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row_letter, seats in seats.items() %}
+                        <tr>
+                            <td class="row-label">{{ row_letter }}</td>
+                            
+                            {% for seat in seats %}
+                                <td class="seat-cell" 
+                                    title="ID: {{ seat.id }} | Sala: {{ seat.auditorium_id }}">
+                                    
+                                    {{ seat.seat_number }}
+                                    
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="alert alert-info">Aún no hay asientos creados para esta sala. La sala no tiene dimensiones definidas.</p>
+        {% endif %}
+    </div>
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+{% endblock content %}
