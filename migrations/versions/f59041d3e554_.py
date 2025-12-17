@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 75b6dc354e8c
+Revision ID: f59041d3e554
 Revises: 
-Create Date: 2025-12-11 15:03:57.704598
+Create Date: 2025-12-15 12:17:28.113754
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '75b6dc354e8c'
+revision = 'f59041d3e554'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -44,6 +44,16 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
     sa.Column('description', sa.String(length=255), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('cinema_function',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('auditorium_id', sa.Integer(), nullable=False),
+    sa.Column('movie_id', sa.Integer(), nullable=False),
+    sa.Column('start_function', sa.DateTime(), nullable=True),
+    sa.Column('end_function', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['auditorium_id'], ['auditoriums.id'], ),
+    sa.ForeignKeyConstraint(['movie_id'], ['movies.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('movie_genre',
@@ -80,6 +90,7 @@ def downgrade():
     op.drop_table('users')
     op.drop_table('seats')
     op.drop_table('movie_genre')
+    op.drop_table('cinema_function')
     op.drop_table('roles')
     op.drop_table('movies')
     op.drop_table('genres')

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        {% include "cinema_hero.html" %}
+        <div class="container container-submenu">
+            {% include "nav_cinema.html" %}
+            <div class="submenu-content">
+                <h3>{{ form.submit.label.text }} Function</h3>
+                <form method="POST" class="form-style">
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {{ form.start_function.label }}
+                        {{ form.start_function(size=40) }}
+                        {% for error in form.start_function.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.auditorium.label }}
+                        {{ form.auditorium }}
+                        {% for error in form.auditorium.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div>
+                        {{ form.movie.label }}
+                        {{ form.movie }}
+                        {% for error in form.movie.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>   
+                    
+                    <div>
+                        {{ form.submit }}
+                        {% for error in form.submit.errors %}
+                            <span style="color:red;display:block">{{ error }}</span>
+                        {% endfor %}
+                    </div>   
+                </form>   
+            </div>
+        </div>
+    </section>
+{% endblock content %}

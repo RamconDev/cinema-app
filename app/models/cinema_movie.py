@@ -12,3 +12,4 @@ class Movie(db.Model):
     poster_url = db.Column(db.String(250), nullable=True)
 
     movie_genres = db.relationship('MovieGenre', back_populates="movie", cascade="all, delete-orphan")
+    cinema_functions = db.relationship('CinemaFunction', back_populates='movie', lazy=True)

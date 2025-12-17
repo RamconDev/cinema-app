@@ -104,11 +104,7 @@ def delete_role(role_id):
 ## USERS
 # CREATE
 @auth.route('/user/create', methods=['GET', 'POST'])
-def register_user():
-    # if current_user.is_authenticated:
-    #     flash('You are already logged in.', 'info')
-    #     return redirect(url_for('cinema.index'))
-    
+def register_user():    
     form = RegisterNewUserForm()
 
     roles = Role.query.all()
@@ -156,8 +152,9 @@ def update_user(user_id):
 
     form = RegisterNewUserForm(user=user)
     form.password.validators = []
-    form.role.choices = [(user.role_id, f'-- { user.roles.name } --')] + [(role.id, role.name) for role in Role.query.all()]
-    form.submit.label.text = "Update"
+    roles = Role.query.all()
+    form.role.choices = [(0, "-- Select Role --")] + [(role.id, role.name) for role in roles]
+    form.submit.label.text = 'Update'
     
     if form.validate_on_submit():
         user.name = form.name.data

@@ -5,14 +5,16 @@ from flask import render_template, redirect, url_for, flash, request
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import selectinload
 from string import ascii_uppercase
+from datetime import timedelta
 
 from app import db
-from app.cinema.forms import RegisterGenreForm, RegisterMovieForm, RegisterAuditoriumForm
+from app.cinema.forms import RegisterGenreForm, RegisterMovieForm, RegisterAuditoriumForm, RegisterFunctionForm
 from app.models.cinema_genre import Genre
 from app.models.cinema_movie import Movie
 from app.models.cinema_movie_genre import MovieGenre
 from app.models.cinema_auditorium import Auditorium
 from app.models.cinema_seat import Seat
+from app.models.cinema_function import CinemaFunction
 
 
 @cinema.route('/')
@@ -317,3 +319,114 @@ def delete_auditorium(auditorium_id):
         flash("The auditorium cannot be deleted due to integrity constraints.")
     #
     return redirect( url_for("cinema.view_auditoriums") )
+
+## Cinema Functions
+# Create
+@cinema.route("/cinema/function/create", methods=['GET', 'POST'])
+def create_function():
+    form = RegisterFunctionForm()
+
+    auditoriums = Auditorium.query.all()
+    form.auditorium.choices = [(0, "-- Select Auditorium --")] + [(a.id, a.name) for a in auditoriums]
+
+    movies = Movie.query.all()
+    form.movie.choices = [(0, "-- Select Movie --")] + [(m.id, m.title) for m in movies]
+
+    if form.validate_on_submit():
+
+        movie = db.session.get(Movie, form.movie.data)
+
+        start = form.start_function.data
+        duration = movie.duration_minutes
+        maintenance = 45
+
+        end_function = start + timedelta(minutes = duration + maintenance)
+
+        new_function = CinemaFunction(
+            auditorium_id = form.auditorium.data,
+            movie_id = form.movie.data,
+            start_function = form.start_function.data,
+            end_function = end_function
+        )
+
+        try:
+            db.session.add(new_function)
+            db.session.commit()
+            flash(f"Added new function '{new_function.movie.title}'. Date: '{new_function.start_function}', auditorium {new_function.auditorium.name}", "success")
+            return redirect( url_for("cinema.view_functions") )
+        except IntegrityError:
+            db.session.rollback()
+            flash("Integrity Error", "")
+        except Exception as e:
+            db.session.rollback()
+            flash("Exception: {str(e)}", "")
+
+    return render_template("cinema_function_create.html", form=form)
+
+# Read
+@cinema.route("/cinema/function/list")
+def view_functions():
+    functions = db.session.execute(
+        db.select(CinemaFunction).order_by(CinemaFunction.start_function.desc())
+    ).scalars().all()
+
+    return render_template("cinema_function_list.html", list=functions)
+
+# Update
+@cinema.route("/cinema/function/<int:function_id>", methods=['GET', 'POST'])
+def update_function(function_id):
+    function = db.session.get(CinemaFunction, function_id)
+
+    if not function:
+        flash("Function doesn't exist", "")
+        redirect( url_for("cinema.view_functions") )
+
+    form = RegisterFunctionForm(function=function)
+
+    auditoriums = Auditorium.query.all()
+    form.auditorium.choices = [(0, "-- Select Auditorium --")] + [(a.id, a.name) for a in auditoriums]
+
+    movies = Movie.query.all()
+    form.movie.choices = [(0, "-- Select Movie --")] + [(m.id, m.title) for m in movies]
+
+    form.submit.label.text = 'Update'
+
+    if form.validate_on_submit():
+        function.start_function = form.start_function.data
+        function.movie_id = form.movie.data
+        function.auditorium_id = form.auditorium.data
+
+        try:
+            db.session.commit()
+            flash("Function updated", "")
+        except:
+            db.session.rollback()
+            flash("Error", "")
+
+        return redirect( url_for("cinema.view_functions") )
+        
+    elif request.method == 'GET':
+        form.start_function.data = function.start_function
+        form.movie.data = function.movie_id
+        form.auditorium.data = function.auditorium_id
+
+    return render_template("cinema_function_create.html", form=form)
+
+# Delete
+@cinema.route("/cinema/function/<int:function_id>/delete", methods=['GET'])
+def delete_function(function_id):
+    function = db.session.get(CinemaFunction, function_id)
+
+    if not function:
+        flash("Function doesn't exist", "")
+        return redirect( url_for("cinema.view_functions") )
+    
+    try: 
+        db.session.delete(function)
+        db.session.commit()
+        flash("Deleted Function", "")
+    except:
+        db.session.rollback()
+        flash("Error", "")
+
+    return redirect( url_for("cinema.view_functions") )

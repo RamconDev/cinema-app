@@ -7,4 +7,5 @@ class Auditorium(db.Model):
     name = db.Column(db.String(150), nullable=False)
     total_seats = db.Column(db.Integer, nullable=False)
 
-    seats = db.relationship('Seat', backref='auditorio', lazy=True, cascade="all, delete-orphan")
+    seats = db.relationship('Seat', backref='auditorium', lazy=True, cascade="all, delete-orphan")
+    cinema_functions = db.relationship('CinemaFunction', back_populates='auditorium', lazy=True)
