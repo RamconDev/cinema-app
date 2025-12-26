@@ -1,0 +1,1 @@
+from .public_reservations_seats import ReservationsSeatsForm

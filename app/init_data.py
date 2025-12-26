@@ -30,9 +30,9 @@ def create_init_data():
         ]
 
         movies = [
-            Movie(title='Matrix', description="Science fiction action film written and directed by the Wachowskis.", release_year=1999, duration_minutes=110, poster_url=""),
-            Movie(title='Lord of The Rings', description="An epic fantasy movie based on the books from J.R.R. Tolkien", release_year=2000, duration_minutes=110, poster_url=""),
-            Movie(title='Shrek 2', description="A comedy movie from Dreamworks", release_year=2004, duration_minutes=110, poster_url="")
+            Movie(title='Matrix', description="Science fiction action film written and directed by the Wachowskis.", release_year=1999, duration_minutes=110, poster_url="https://picfiles.alphacoders.com/385/385304.jpg"),
+            Movie(title='Lord of The Rings', description="An epic fantasy movie based on the books from J.R.R. Tolkien", release_year=2000, duration_minutes=180, poster_url="https://tse3.mm.bing.net/th/id/OIP.NTGmfleP4sVK2Z68NjxwAQAAAA?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"),
+            Movie(title='Shrek 2', description="A comedy movie from Dreamworks", release_year=2004, duration_minutes=110, poster_url="https://cdn.shopify.com/s/files/1/1416/8662/products/shrek_2_2004_original_film_art_600x.jpg?v=1551894581")
         ]
 
         db.session.add_all(roles)

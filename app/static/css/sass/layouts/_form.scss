@@ -70,6 +70,12 @@
                 gap: 4px;
             }
         }
+        &.w1fr {
+            grid-template-columns: 1fr;
+            input[type='submit'] {
+                grid-column: 1;
+            }
+        }
     }
     @media ( max-width: 767px ) {
         div {

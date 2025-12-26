@@ -1,4 +1,3 @@
-from flask import Blueprint
 from app.auth import auth_bp as auth
 
 from flask import render_template, redirect, url_for, flash, request

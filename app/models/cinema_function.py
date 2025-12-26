@@ -12,3 +12,18 @@ class CinemaFunction(db.Model):
 
     movie = db.relationship("Movie", back_populates="cinema_functions")
     auditorium = db.relationship("Auditorium", back_populates="cinema_functions")
+    reservations = db.relationship("Reservation", back_populates="cinema_functions")
+
+    def __str__(self):
+        return f"""
+        CinemaFunction (
+            id: { self.id },
+            auditorium_id: { self.auditorium_id },
+            movie_id: { self.movie_id },
+            start_function: { self.start_function },
+            end_function: { self.end_function },
+            <movie>,
+            <auditorium>,
+            <reservations>
+        )
+        """

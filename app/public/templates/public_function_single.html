@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="single-function">
+    <section class="c-function-info">
+        <div class="container">
+            <ul>
+                <li>
+                    <h1>{{ function.movie.title }}</h1>
+                </li>
+                <li>
+                    <h2>{{ function.auditorium.name }}</h2>
+                </li>
+                <li>
+                    <h3>Total seats: {{ function.auditorium.total_seats }}</h3>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="c-seats">
+        <div class="container">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div>
+                    <style>
+                        ul {
+                            list-style: none;
+                            display: grid;
+                            grid-template-columns: repeat(8, 1fr);
+                            gap: 2px;
+                        }
+                    </style>
+                    {{ form.seats.label }}
+                    {{ form.seats }}
+                    {% for error in form.seats.errors %}
+                        <span style="color:red;display:block">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.submit }}
+                    {% for error in form.submit.errors %}
+                        <span style="color:red;display:block">{{ error }}</span>
+                    {% endfor %}
+                </div>  
+            </form>
+        </div>
+    </section>
+
+
+    <section>
+        <div class="container">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User Name</th>
+                        <th>Seats</th>
+                        <th>Created Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if reservations: %}
+                        {% for a in reservations: %}
+                            <tr>
+                                <td>{{ a.id }}</td>
+                                <td>{{ a.user.name }}</td>
+                                <td>
+                                    {% for rs in a.reservation_seats %}
+                                            {{ rs.seats.seat_number }}
+                                            {% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ a.create_at }}</td>
+                                <td>{{ a.status }}</td>
+                                <td class="actions">
+                                    <a href="#">
+                                        {% include "icons_templates/trash_icon.html" %}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else: %}
+                    <tr>
+                        <td>Nothing</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+</div>
+{% endblock content %}

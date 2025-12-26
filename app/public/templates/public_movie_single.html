@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="single_movie">
+    <section class="info_movie">
+        <div class="container container-grid">
+            <div class="poster">
+                <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+            </div>
+            <div class="description">
+                <h1>{{ movie.title }} ({{ movie.release_year }})</h1>
+                <p>{{ movie.description }}</p>
+                <div class="c-genres">
+                    <h2>Genres:</h2>
+                    <ul class="categories">
+                        {% for mg in movie.movie_genres %}
+                            <li>{{ mg.genre.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="functions-list">
+        <div class="container">
+            <h2>Next Functions</h2>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Date and Time</th>
+                        <th>Auditorium</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if functions_movie: %}
+                        {% for function in functions_movie: %}
+                            <tr>
+                                <td>
+                                    {{ function.start_function }}
+                                </td>
+                                <td>
+                                    {{ function.auditorium.name }}
+                                </td>
+                                <td class="actions">
+                                    <a href="{{ url_for('public.info_function', movie_id=function.movie_id, function_id=function.id) }}">
+                                        {% include "icons_templates/eye_icon.html" %}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else: %}
+                        <tr>
+                            <td>
+                                There are no upcoming screenings for this film.
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="trailer">
+        <div class="container">
+            <h2>Trailer</h2>
+        </div>
+    </section>
+</div>
+{% endblock content %}

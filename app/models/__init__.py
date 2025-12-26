@@ -14,3 +14,7 @@ from .cinema_auditorium import Auditorium
 from .cinema_seat import Seat
 
 from .cinema_function import CinemaFunction
+
+# Import public models
+from .public_reservation import Reservation
+from .public_reservation_seats import ReservationSeats

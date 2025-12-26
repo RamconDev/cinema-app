@@ -1,4 +1,3 @@
-from flask import Blueprint
 from app.cinema import cinema_bp as cinema
 
 from flask import render_template, redirect, url_for, flash, request
@@ -17,12 +16,12 @@ from app.models.cinema_seat import Seat
 from app.models.cinema_function import CinemaFunction
 
 
-@cinema.route('/')
-def index():
-    return render_template('index.html')
+# @cinema.route('/')
+# def index():
+#     return render_template('index.html')
 ## Genre
 #Create
-@cinema.route('/movie/genre/create', methods=['GET', 'POST'])
+@cinema.route('/cinema/movie/genre/create', methods=['GET', 'POST'])
 def create_genre():
     form = RegisterGenreForm()
 
@@ -44,7 +43,7 @@ def create_genre():
     return render_template('cinema_genre_create.html', form=form)
 
 # Read
-@cinema.route("/movie/genre")
+@cinema.route("/cinema/movie/genre")
 def view_genres():
     genres = db.session.execute(
             db.select(Genre).order_by(Genre.id.asc())
@@ -53,7 +52,7 @@ def view_genres():
     return render_template("cinema_genre_list.html", list=genres)
 
 # Update
-@cinema.route("/movie/genre/<int:genre_id>", methods=['GET', 'POST'])
+@cinema.route("/cinema/movie/genre/<int:genre_id>", methods=['GET', 'POST'])
 def update_genre(genre_id):
     genre = db.session.get(Genre, genre_id)
     if not genre:
@@ -86,7 +85,7 @@ def update_genre(genre_id):
     return render_template("cinema_genre_create.html", form=form)
 
 # Delete
-@cinema.route("/movie/genre/<int:genre_id>/delete")
+@cinema.route("/cinema/movie/genre/<int:genre_id>/delete")
 def delete_genre(genre_id):
     genre = db.session.get(Genre, genre_id)
     if not genre:
@@ -108,7 +107,7 @@ def delete_genre(genre_id):
 
 ## Movie
 # Create
-@cinema.route("/movie/create", methods=['GET', 'POST'])
+@cinema.route("/cinema/movie/create", methods=['GET', 'POST'])
 def create_movie():
     form = RegisterMovieForm()
 
@@ -120,7 +119,7 @@ def create_movie():
         new_movie = Movie(
             title = form.title.data,
             description = form.description.data,
-            release_year = int(form.release_year.data),
+            release_year = form.release_year.data,
             duration_minutes = form.duration_minutes.data,
             poster_url = form.poster_url.data
         )
@@ -142,7 +141,7 @@ def create_movie():
     return render_template("cinema_movie_create.html", form=form)
 
 # Read
-@cinema.route("/movie/list")
+@cinema.route("/cinema/movie/list")
 def view_movies():
     movies = db.session.execute(
         db.select(Movie).order_by(Movie.id.desc())
@@ -150,7 +149,7 @@ def view_movies():
     return render_template("cinema_movie_list.html", list=movies)
 
 # Update
-@cinema.route("/movie/<int:movie_id>", methods=['GET', 'POST'])
+@cinema.route("/cinema/movie/<int:movie_id>", methods=['GET', 'POST'])
 def update_movie(movie_id):
 
     movie = db.session.get(Movie, movie_id)
@@ -172,6 +171,8 @@ def update_movie(movie_id):
     if form.validate_on_submit():
         movie.title = form.title.data
         movie.description = form.description.data
+        movie.poster_url = form.poster_url.data
+        movie.duration_minutes = form.duration_minutes.data
         selected_genres = form.options.data
 
         movie.movie_genres = [MovieGenre(genre_id=genre) for genre in selected_genres]
@@ -196,7 +197,7 @@ def update_movie(movie_id):
     return render_template("cinema_movie_create.html", form=form)
 
 # Delete
-@cinema.route("/movie/<int:movie_id>/delete")
+@cinema.route("/cinema/movie/<int:movie_id>/delete")
 def delete_movie(movie_id):
     movie = db.session.get(Movie, movie_id)
     if not movie:
@@ -290,7 +291,14 @@ def update_auditorium(auditorium_id):
     form.submit.label.text = 'Update'
 
     if form.validate_on_submit():
-        pass
+        auditorium.name = form.name.data
+
+        try:
+            db.session.commit()
+            flash("Auditorium updated.", "success")
+        except:
+            db.session.rollback()
+            flash("error", "error")
 
     seats_list_sorted = sorted(auditorium.seats, key=lambda s: s.id)
 
