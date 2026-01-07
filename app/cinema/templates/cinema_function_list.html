@@ -11,7 +11,8 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Date Function</th>
+                            <th>Start Function</th>
+                            <th>End Function</th>
                             <th>Movie</th>
                             <th>Auditorium</th>
                             <th>Actions</th>
@@ -23,9 +24,13 @@
                         <tr>
                             <td>{{ item.id }}</td>
                             <td>{{ item.start_function }}</td>
+                            <td>{{ item.end_function }}</td>
                             <td>{{ item.movie.title }}</td>
                             <td>{{ item.auditorium.name }}</td>
                             <td class="actions">
+                                <a href="{{ url_for('cinema.view_reservations', function_id=item.id) }}" style="color: gray; text-decoration: none;">
+                                    {% include "icons_templates/eye_icon.html" %}
+                                </a>
                                 <a href="{{ url_for('cinema.update_function', function_id=item.id) }}">
                                     {% include "icons_templates/pencil_icon.html" %}
                                 </a>

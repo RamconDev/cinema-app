@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        {% include "cinema_hero.html" %}
+        <div class="container container-submenu">
+            {% include "nav_cinema.html" %}
+            <div class="submenu-content">
+                <h3>Reservation List</h3>
+                <ul class="">
+                    <li>{{ cinema_function.movie.title }}</li>
+                    <li>{{ cinema_function.start_function }}</li>
+                    <li>{{ cinema_function.auditorium.name }}</li>
+                </ul>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Auditorium</th>
+                            <th>Seats</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if cinema_function.reservations: %}
+                            {% for reservations in cinema_function.reservations: %}
+                                <tr>
+                                    <td>{{ reservations.id }}</td>
+                                    <td>{{ cinema_function.auditorium.name }}</td>
+                                    <td>
+                                        {% for s in reservations.reservation_seats:  %}
+                                            {{ s.seats.seat_number }}
+                                            {% if not loop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td class="actions">
+                                        <a href="{{ url_for('cinema.delete_reservation', reservation_id=reservations.id, function_id=cinema_function.id) }}">
+                                            {% include "icons_templates/trash_icon.html" %}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else: %}
+                                <tr>
+                                    <td>No reservations.</td>
+                                </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

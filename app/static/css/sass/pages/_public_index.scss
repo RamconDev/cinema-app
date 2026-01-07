@@ -1,0 +1,29 @@
+#index {
+  .movie_listing {
+    padding: 30px;
+    ul.list {
+      display:flex;
+      gap: 30px;
+      list-style: none;
+      li {
+        height: 300px;
+        width: 200px;
+        border: 4px solid #edd100;
+        border-radius: 6px;
+        a {
+          img {
+            position: relative;
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+            filter:brightness(.8);
+            transition: filter .2s;
+            &:hover {
+              filter: brightness(1);
+            }
+          }
+        }
+      }
+    }
+  }
+}

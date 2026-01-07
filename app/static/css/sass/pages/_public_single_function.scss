@@ -1,0 +1,11 @@
+#single-function {
+  .c-function-info {
+    .container {
+      ul {
+        list-style: none;
+        grid-template-columns: 1fr;
+        grid-gap: 12px;
+      }
+    }
+  }
+}

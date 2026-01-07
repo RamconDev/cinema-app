@@ -1,31 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h1>Welcome to the Cinema App!</h1>
-        {% if movies: %}
-            <style>
-                ul.list {
-                    display:flex;
-                    list-style: none;
-                }
-                ul.list li a {
-                }
-                ul.list li a img {
-                    object-fit: cover;
-                    width: 200px;
-                }
-            </style>
-            <ul class="list">
-            {% for movie in movies: %}
-                <li>
-                    <a href="{{ url_for('public.info_movie', movie_id=movie.id) }}">
-                        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
-                    </a>
-                </li>
-            {% endfor %}
-            </ul>
-        {% else: %}
-        {% endif %}
+    <div id="index">
+        <section class="movie_listing">
+            <div class="container">
+                {% if movies: %}
+                    <ul class="list">
+                    {% for movie in movies: %}
+                        <li>
+                            <a href="{{ url_for('public.info_movie', movie_id=movie.id) }}">
+                                <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+                            </a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else: %}
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="otracosa">
+            <div class="container">
+                <h1>Welcome to the Cinema App!</h1>
+            </div>
+        </section>
     </div>
 {% endblock content %}

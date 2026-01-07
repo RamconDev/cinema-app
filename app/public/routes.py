@@ -14,11 +14,23 @@ from app.models.public_reservation_seats import ReservationSeats
 
 @public.route('/')
 def index():
-    movies = db.session.execute(
-        db.select(Movie).order_by(Movie.release_year.desc())
-    ).scalars().all()
+    now = datetime.now()
+    query = (
+        db.select(Movie)
+        .join(Movie.cinema_functions)
+        .where(CinemaFunction.start_function >= now)
+        .distinct()
+    )
+
+    movies = db.session.execute(query).scalars().all()
 
     return render_template("public_index.html", movies=movies)
+# def index():
+#     movies = db.session.execute(
+#         db.select(Movie).order_by(Movie.release_year.desc())
+#     ).scalars().all()
+
+#     return render_template("public_index.html", movies=movies)
 
 @public.route('/movie/<int:movie_id>')
 def info_movie(movie_id):
@@ -42,28 +54,27 @@ def info_function(movie_id ,function_id):
     form = ReservationsSeatsForm()
 
     seats_list_sorted = sorted(movie_function.auditorium.seats, key=lambda s: s.id)
-    
+
+    function_reservations = movie_function.reservations
+
+    cinema_function = db.session.get(CinemaFunction, function_id)
+
+    disabled_seats = []
+    for re in cinema_function.reservations:
+        for seat in re.reservation_seats:
+            disabled_seats.append(seat.seat_id)
+
     form.seats.choices = [(s.id, s.seat_number) for s in seats_list_sorted]
 
-    reservations = Reservation.query.all()
-
-    res = db.session.get(CinemaFunction, function_id)
-
-    seatss = []
-    print (res)
-    for re in res.reservations:
-        for seat in re.reservation_seats:
-            seatss.append(seat.seat_id)
-
-    print(seatss)
-    # seats_by_row = {}
-    # for seat_id, seat_number in form.seats.choices:
-    #     row_letter = seat_number[0]
-    #     if row_letter not in seats_by_row:
-    #         seats_by_row[row_letter] = []
-    #     seats_by_row[row_letter].append((seat_id, seat_number))
-
     if form.validate_on_submit():
+        movie_function = db.session.get(CinemaFunction, function_id)
+        function_reservations = movie_function.reservations
+
+        disabled_seats = []
+        for re in cinema_function.reservations:
+            for seat in re.reservation_seats:
+                disabled_seats.append(seat.seat_id)
+
         user_id = current_user.id
         seats_selected = form.seats.data
         reservation = Reservation(
@@ -72,22 +83,28 @@ def info_function(movie_id ,function_id):
             status = 'Reserved'
         )
 
+
+        for seat in seats_selected:
+            if seat in disabled_seats:
+                flash("Error reservating seats", "")
+                return redirect( url_for('public.info_function', movie_id=movie_id, function_id=function_id) )
+
         db.session.add(reservation)
         db.session.commit()
 
         for seat in seats_selected:
-            new_seat = ReservationSeats(
-                reservation_id = reservation.id,
-                seat_id = seat
-            )
-            db.session.add(new_seat)
+            if seat not in disabled_seats:
+                new_seat = ReservationSeats(
+                    reservation_id = reservation.id,
+                    seat_id = seat
+                )
+                db.session.add(new_seat)
 
         try:
             db.session.commit()
             flash("Done Reservation", "success")
-
         except:
             db.session.rollback()
             flash("Error", "alert")
 
-    return render_template("public_function_single.html", form=form, function=movie_function, reservations=reservations)
+    return render_template("public_function_single.html", form=form, function=movie_function, reservations=function_reservations, function_id=cinema_function.id, disabled_seats=disabled_seats)

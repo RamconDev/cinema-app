@@ -1,6 +1,7 @@
 from app.cinema import cinema_bp as cinema
 
 from flask import render_template, redirect, url_for, flash, request
+from sqlalchemy import and_, or_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import selectinload
 from string import ascii_uppercase
@@ -14,11 +15,8 @@ from app.models.cinema_movie_genre import MovieGenre
 from app.models.cinema_auditorium import Auditorium
 from app.models.cinema_seat import Seat
 from app.models.cinema_function import CinemaFunction
+from app.models.public_reservation import Reservation
 
-
-# @cinema.route('/')
-# def index():
-#     return render_template('index.html')
 ## Genre
 #Create
 @cinema.route('/cinema/movie/genre/create', methods=['GET', 'POST'])
@@ -347,8 +345,27 @@ def create_function():
         start = form.start_function.data
         duration = movie.duration_minutes
         maintenance = 45
-
         end_function = start + timedelta(minutes = duration + maintenance)
+
+# 2. VALIDACIÓN DE SOLAPAMIENTO (Overlap Logic)
+        # Buscamos si existe alguna función en la misma sala donde:
+        # El inicio de la existente sea antes que el fin de la nueva
+        # Y el fin de la existente sea después que el inicio de la nueva
+        overlap_query = db.select(CinemaFunction).where(
+            and_(
+                CinemaFunction.auditorium_id == form.auditorium.data,
+                CinemaFunction.start_function < end_function,
+                CinemaFunction.end_function > start
+            )
+        )
+        
+        existing_overlap = db.session.execute(overlap_query).scalars().first()
+
+        if existing_overlap:
+            flash(f"Error: La sala '{existing_overlap.auditorium.name}' ya está ocupada por "
+                  f"'{existing_overlap.movie.title}' ({existing_overlap.start_function.strftime('%H:%M')} - "
+                  f"{existing_overlap.end_function.strftime('%H:%M')})", "alert")
+            return render_template("cinema_function_create.html", form=form)
 
         new_function = CinemaFunction(
             auditorium_id = form.auditorium.data,
@@ -438,3 +455,32 @@ def delete_function(function_id):
         flash("Error", "")
 
     return redirect( url_for("cinema.view_functions") )
+
+## Cinema Reservations
+# Read
+@cinema.route("/cinema/function/<int:function_id>/reservation/list")
+def view_reservations(function_id):
+    cinema_function = db.session.get(CinemaFunction, function_id)
+
+    if not cinema_function:
+        flash("Function doesn't exist")
+        return redirect( url_for('cinema.view_functions'))
+
+    return render_template('cinema_reservation_list.html', cinema_function=cinema_function)
+
+@cinema.route("/cinema/function/<int:function_id>/reservation/<int:reservation_id>/delete")
+def delete_reservation(function_id, reservation_id):
+    reservation = db.session.get(Reservation, reservation_id)
+
+    if not reservation:
+        flash("Reservation doesn't exist.")
+    else:
+        try:
+            db.session.delete(reservation)
+            db.session.commit()
+            flash("Reservation deleted.", "success")
+        except:
+            db.session.rollback()
+            flash("Error.", "success")
+
+    return redirect( url_for('cinema.view_reservations', function_id=function_id) )

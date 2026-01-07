@@ -17,35 +17,30 @@
             </ul>
         </div>
     </section>
+
     <section class="c-seats">
         <div class="container">
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <div>
-                    <style>
-                        ul {
-                            list-style: none;
-                            display: grid;
-                            grid-template-columns: repeat(8, 1fr);
-                            gap: 2px;
-                        }
-                    </style>
-                    {{ form.seats.label }}
-                    {{ form.seats }}
-                    {% for error in form.seats.errors %}
-                        <span style="color:red;display:block">{{ error }}</span>
+                    {% for seat in form.seats: %}
+                        <label>
+                            <input type="checkbox" name="{{ seat.name }}" value="{{ seat.data }}"
+                                {% if seat.data in disabled_seats %}disabled{% endif %}>
+                            {{ seat.label.text }}
+                        </label>
                     {% endfor %}
                 </div>
+
                 <div>
                     {{ form.submit }}
                     {% for error in form.submit.errors %}
                         <span style="color:red;display:block">{{ error }}</span>
                     {% endfor %}
-                </div>  
+                </div> 
             </form>
-        </div>
+        </div> 
     </section>
-
 
     <section>
         <div class="container">
@@ -62,20 +57,20 @@
                 </thead>
                 <tbody>
                     {% if reservations: %}
-                        {% for a in reservations: %}
+                        {% for res in reservations: %}
                             <tr>
-                                <td>{{ a.id }}</td>
-                                <td>{{ a.user.name }}</td>
+                                <td>{{ res.id }}</td>
+                                <td>{{ res.user.name }}</td>
                                 <td>
-                                    {% for rs in a.reservation_seats %}
+                                    {% for rs in res.reservation_seats %}
                                             {{ rs.seats.seat_number }}
                                             {% if not loop.last %}, {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{{ a.create_at }}</td>
-                                <td>{{ a.status }}</td>
+                                <td>{{ res.create_at }}</td>
+                                <td>{{ res.status }}</td>
                                 <td class="actions">
-                                    <a href="#">
+                                    <a href="{{ url_for('cinema.delete_reservation', reservation_id=res.id, function_id=function_id) }}">
                                         {% include "icons_templates/trash_icon.html" %}
                                     </a>
                                 </td>
@@ -83,7 +78,7 @@
                         {% endfor %}
                     {% else: %}
                     <tr>
-                        <td>Nothing</td>
+                        <td>No reservations.</td>
                     </tr>
                     {% endif %}
                 </tbody>

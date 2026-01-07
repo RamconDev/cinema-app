@@ -217,7 +217,7 @@ def login():
         next_page = request.args.get('next')
 
         flash(f"Welcome {user.name.capitalize()}", "alert-success")
-        return redirect( next_page or url_for('cinema.index') )
+        return redirect( next_page or url_for('public.index') )
 
     return render_template('auth_login.html', form=form)
 
@@ -253,4 +253,4 @@ def register():
 @auth.route('/logout')
 def logout():
     logout_user()
-    return redirect( url_for('cinema.index') )
+    return redirect( url_for('public.index') )
