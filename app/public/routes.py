@@ -66,6 +66,15 @@ def info_function(movie_id ,function_id):
 
     form.seats.choices = [(s.id, s.seat_number) for s in seats_list_sorted]
 
+    choices_per_row = {}
+    for s in seats_list_sorted:
+        row_letter = s.seat_number[0] 
+    
+        if row_letter not in choices_per_row:
+            choices_per_row[f"{row_letter}"] = []
+    
+        choices_per_row[row_letter].append(s)
+
     if form.validate_on_submit():
         movie_function = db.session.get(CinemaFunction, function_id)
         function_reservations = movie_function.reservations
@@ -82,7 +91,6 @@ def info_function(movie_id ,function_id):
             function_id = movie_function.id,
             status = 'Reserved'
         )
-
 
         for seat in seats_selected:
             if seat in disabled_seats:
@@ -107,4 +115,4 @@ def info_function(movie_id ,function_id):
             db.session.rollback()
             flash("Error", "alert")
 
-    return render_template("public_function_single.html", form=form, function=movie_function, reservations=function_reservations, function_id=cinema_function.id, disabled_seats=disabled_seats)
+    return render_template("public_function_single.html", form=form, function=movie_function, reservations=function_reservations, function_id=cinema_function.id, seats_per_row=choices_per_row, disabled_seats=disabled_seats)

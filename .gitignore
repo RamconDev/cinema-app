@@ -63,7 +63,6 @@ coverage.xml
 
 # PyCharm / VSCode / other IDEs
 .idea/
-.vscode/
 *.sublime-project
 *.sublime-workspace
 
@@ -87,3 +86,6 @@ flask_session/
 
 app/data.sql
 app/schema.sql
+temp_auto_push.bat
+temp_interactive_push.bat
+branch_structure.json

@@ -18,18 +18,32 @@
         </div>
     </section>
 
+
+
     <section class="c-seats">
         <div class="container">
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <div>
-                    {% for seat in form.seats: %}
-                        <label>
-                            <input type="checkbox" name="{{ seat.name }}" value="{{ seat.data }}"
-                                {% if seat.data in disabled_seats %}disabled{% endif %}>
-                            {{ seat.label.text }}
-                        </label>
-                    {% endfor %}
+                    <table class="styled-table">
+                        {% set var = namespace(first_letter='') %}
+                        <tbody>
+                            {% for seat in form.seats: %}
+                                {% if seat.label.text[0] != var.first_letter %}
+                                    {% if var.first_letter == '': %}
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                {% endif %}
+                                <td class="{% if seat.data in disabled_seats %}disabled{% endif %}">
+                                    <input type="checkbox" name="{{ seat.name }}" value="{{ seat.data }}"
+                                        {% if seat.data in disabled_seats %}disabled{% endif %}>
+                                    {{ seat.label.text }}
+                                </td>
+                                {% set var.first_letter = seat.label.text[0] %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
 
                 <div>
